@@ -13,6 +13,7 @@ import 'package:flutter_carplay/models/poi/poi.dart';
 import 'package:flutter_carplay/models/poi/poi_template.dart';
 import 'package:flutter_carplay/models/tabbar/tabbar_template.dart';
 import 'package:flutter_carplay/constants/private_constants.dart';
+import 'package:flutter_carplay/models/playing/playing_template.dart';
 
 /// [FlutterCarPlayController] is an root object in order to control and communication
 /// system with the Apple CarPlay and native functions.
@@ -92,7 +93,7 @@ class FlutterCarPlayController {
         template.runtimeType == CPGridTemplate ||
         template.runtimeType == CPInformationTemplate ||
         template.runtimeType == CPPointOfInterestTemplate ||
-        template.runtimeType == CPListTemplate) {
+        template.runtimeType == CPListTemplate || template.runtimeType == CPSharedNowPlayingTemplate) {
       templateHistory.add(template);
     } else {
       throw TypeError();

@@ -9,6 +9,7 @@ import 'package:flutter_carplay/models/information/information_template.dart';
 import 'package:flutter_carplay/models/poi/poi_template.dart';
 import 'package:flutter_carplay/models/tabbar/tabbar_template.dart';
 import 'package:flutter_carplay/constants/private_constants.dart';
+import 'package:flutter_carplay/models/playing/playing_template.dart';
 
 /// An object in order to integrate Apple CarPlay in navigation and
 /// manage all user interface elements appearing on your screens displayed on
@@ -151,7 +152,8 @@ class FlutterCarplay {
         rootTemplate.runtimeType == CPGridTemplate ||
         rootTemplate.runtimeType == CPListTemplate ||
         rootTemplate.runtimeType == CPInformationTemplate ||
-        rootTemplate.runtimeType == CPPointOfInterestTemplate) {
+        rootTemplate.runtimeType == CPPointOfInterestTemplate ||
+        rootTemplate.runtimeType == CPSharedNowPlayingTemplate) {
       _carPlayController.methodChannel
           .invokeMethod('setRootTemplate', <String, dynamic>{
         'rootTemplate': rootTemplate.toJson(),
@@ -287,5 +289,15 @@ class FlutterCarplay {
     } else {
       throw TypeError();
     }
+  }
+
+  static Future<bool> showSharedNowPlaying({
+    bool animated = true,
+  }) async {
+    bool isCompleted = await _carPlayController.reactToNativeModule(
+      FCPChannelTypes.showNowPlaying,
+      animated,
+    );
+    return isCompleted;
   }
 }
