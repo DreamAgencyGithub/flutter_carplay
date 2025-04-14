@@ -71,6 +71,10 @@ public class SwiftFlutterCarplayPlugin: NSObject, FlutterPlugin {
         rootTemplate = FCPListTemplate(obj: args["rootTemplate"] as! [String : Any], templateType: FCPListTemplateTypes.DEFAULT)
         SwiftFlutterCarplayPlugin.rootTemplate = (rootTemplate as! FCPListTemplate).get
         break
+      case String(describing: FCPSharedNowPlayingTemplate.self):
+        rootTemplate = FCPSharedNowPlayingTemplate()
+        SwiftFlutterCarplayPlugin.rootTemplate = (rootTemplate as! FCPSharedNowPlayingTemplate).get
+        break
       default:
         result(false)
         return
