@@ -210,16 +210,6 @@ public class SwiftFlutterCarplayPlugin: NSObject, FlutterPlugin {
       self.objcPresentTemplate = nil
       result(true)
       break
-    case FCPChannelTypes.showNowPlaying:
-       // guard let animated = call.arguments as? Bool else {
-       //  result(false)
-       //  return
-       // }
-       let template = FCPSharedNowPlayingTemplate()
-       // TODO check this SwiftFlutterCarplayPlugin.templateStack.append(template)
-       FlutterCarPlaySceneDelegate.push(template: template.get, animated: true)
-       result(true)
-       break
     default:
       result(false)
       break

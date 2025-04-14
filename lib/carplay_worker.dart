@@ -290,14 +290,4 @@ class FlutterCarplay {
       throw TypeError();
     }
   }
-
-  static Future<bool> showSharedNowPlaying({
-    bool animated = true,
-  }) async {
-    bool isCompleted = await _carPlayController.reactToNativeModule(
-      FCPChannelTypes.showNowPlaying,
-      animated,
-    );
-    return isCompleted;
-  }
 }
