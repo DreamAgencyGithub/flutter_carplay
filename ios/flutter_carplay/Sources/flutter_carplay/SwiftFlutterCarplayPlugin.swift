@@ -36,6 +36,7 @@ public class SwiftFlutterCarplayPlugin: NSObject, FlutterPlugin {
     self.registrar = registrar
 
     self.streamHandler = FCPStreamHandlerPlugin(registrar: registrar)
+    CPNowPlayingTemplate.shared.add(FCPNowPlayingObserver.shared)
   }
 
   public static func sendOnScreenBackButtonPressed(elementId: String) {
@@ -345,6 +346,31 @@ public class SwiftFlutterCarplayPlugin: NSObject, FlutterPlugin {
         return
       }
       FlutterCarPlaySceneDelegate.modals.close(animated: animated, result: result)
+    case FCPChannelTypes.updateNowPlayingTemplate:
+      guard let args = call.arguments as? [String: Any] else {
+        result(false)
+        return
+      }
+      let nowPlayingTemplate = CPNowPlayingTemplate.shared
+      if let isUpNextButtonEnabled = args["isUpNextButtonEnabled"] as? Bool {
+        nowPlayingTemplate.isUpNextButtonEnabled = isUpNextButtonEnabled
+      }
+      if let upNextTitle = args["upNextTitle"] as? String {
+        nowPlayingTemplate.upNextTitle = upNextTitle
+      }
+      if let nowPlayingButtons = args["nowPlayingButtons"] as? [[String: Any]] {
+        nowPlayingTemplate.updateNowPlayingButtons(
+          nowPlayingButtons.map { obj -> FCPNowPlayingButton in
+            switch obj["runtimeType"] as? String {
+            case "FCPNowPlayingPlaybackRateButton":
+              return FCPNowPlayingPlaybackRateButton(obj: obj)
+            default:
+              return FCPNowPlayingImageButton(obj: obj)
+            }
+          }.map { $0.get })
+      }
+      result(true)
+      break
     case FCPChannelTypes.showNowPlaying:
       guard let animated = call.arguments as? Bool else {
         result(false)
